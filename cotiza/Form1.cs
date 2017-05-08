@@ -50,30 +50,24 @@ namespace cotiza
                 String empresa = partes[2].Trim();
                 if (!String.IsNullOrEmpty(empresa))
                 {
-                    
-                    MySqlDataReader empresa_lista = Datos.empresa_buscar(empresa);
-                    String empresa_id="";
-                    contador = 0;
-                    while (empresa_lista.Read())
-                        {
-                            empresa_id = empresa_lista["aux_id"].ToString();
-                            contador++;
-                        }
-                        if (contador > 1)
-                        {
-                            MessageBox.Show("Registro duplicado:"+empresa_id);
-                        }
-                    empresa_lista.Dispose();
+                    DataTable empresa_id = Datos.empresa_recuperar(empresa);
+                    if(empresa_id.Rows.Count>1)
+                    {
 
-                    if(contador==0) 
+                    }
+                    else if (empresa_id.Rows.Count==0)
+                    {
+
+                    }
+
+                    if(empresa_id.Rows.Count==0)
                     {
                         Form2 formulario = new Form2();
                         formulario.textBox1.Text = empresa;
+                        formulario.textBox2.Text = empresa;
                         if (formulario.ShowDialog() == DialogResult.OK)
                         {
-                            ListViewItem a = formulario.listView1.SelectedItems[0];
-                            //asegurado1_mostrar(a.SubItems[0].Text);
-                            //nuevo = false;
+                            //ListViewItem a = formulario.listView1.SelectedItems[0];
                         }
                     }
                 }

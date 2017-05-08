@@ -45,6 +45,21 @@ namespace cotiza
             return 0;
         }
 
+        public static int empresa_crear(String corto,String empresa)
+        {
+            return enlace1.ejecutar(String.Format("insert into auxiliar (aux_etiqueta,aux_corto,aux_nombre,aux_estado) values (espacio_buscar(4011),'{0}','{1}',1)", corto, empresa));
+        }
+
+        public static DataTable empresa_recuperar(String nombre)
+        {
+            return enlace1.lista(String.Format("select aux_id from auxiliar where aux_corto='{0}'",nombre));
+        }
+
+        public static int empresa_reemplazar(String codigo,String corto,String empresa)
+        {
+            return enlace1.ejecutar(String.Format("update auxiliar set aux_corto='{0}',aux_nombre='{1}' where aux_etiqueta={2} and aux_estado=1", corto,empresa,codigo));
+        }
+
         public static MySqlDataReader empresa_lista()
         {
             return enlace1.consulta(String.Format("select * from auxiliar where aux_estado=1"));
