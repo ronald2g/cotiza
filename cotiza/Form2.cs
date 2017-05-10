@@ -30,7 +30,7 @@ namespace cotiza
 
         private void empresas_similares()
         {
-            MySqlDataReader puntero = Datos.empresa_lista();
+            MySqlDataReader puntero = Datos.empresa_lista(Form1.grupo_auxiliar);
             int medida = textBox1.Text.Length;
             int distancia;
             while (puntero.Read())

@@ -12,6 +12,21 @@ namespace cotiza
     {
         public static Enlace enlace1;
         //public static Enlace enlace2;
+        public static string[] empresa_tipo = new string[] {
+            "EMPRESAS PUBLICAS - SIGMA",
+            "CAJA PETROLERA DE SALUD",
+            "EMPRESAS PUBLICAS",
+            "EMPRESAS PRIVADAS",
+            "RENTISTAS PRIVADOS",
+            "ASEGURADOS VOLUNTARIOS"};
+
+        public static int[] empresa_cuenta = new int[] {
+            4008,
+            4009,
+            4010,
+            4011,
+            4013,
+            4012};
 
         public static Exception abrir()
         {
@@ -47,7 +62,7 @@ namespace cotiza
 
         public static int empresa_crear(String corto,String empresa)
         {
-            return enlace1.ejecutar(String.Format("insert into auxiliar (aux_etiqueta,aux_corto,aux_nombre,aux_estado) values (espacio_buscar(4011),'{0}','{1}',1)", corto, empresa));
+            return enlace1.ejecutar(String.Format("insert into auxiliar (aux_etiqueta,aux_corto,aux_nombre,aux_estado) values (espacio_buscar({0}),'{1}','{2}',1)", Form1.grupo_auxiliar, corto, empresa));
         }
 
         public static DataTable empresa_recuperar(String nombre)
@@ -60,9 +75,9 @@ namespace cotiza
             return enlace1.ejecutar(String.Format("update auxiliar set aux_corto='{0}',aux_nombre='{1}' where aux_etiqueta={2} and aux_estado=1", corto,empresa,codigo));
         }
 
-        public static MySqlDataReader empresa_lista()
+        public static MySqlDataReader empresa_lista(int grupo)
         {
-            return enlace1.consulta(String.Format("select * from auxiliar where aux_estado=1"));
+            return enlace1.consulta(String.Format("select * from auxiliar where aux_etiqueta={0} and aux_estado=1",cuenta));
         }
 
         public static MySqlDataReader empresa_buscar(String nombre)

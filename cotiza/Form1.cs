@@ -15,6 +15,8 @@ namespace cotiza
     public partial class Form1 : Form
     {
         DateTime fecha;
+        static public int grupo_auxiliar=0;
+
         public Form1()
         {
             InitializeComponent();
@@ -46,9 +48,12 @@ namespace cotiza
             int cotizacion = Datos.codigo_numero(partes[1].Trim());
             if(cotizacion>0)
             {
-                int contador = 0;
                 String empresa = partes[2].Trim();
-                if (!String.IsNullOrEmpty(empresa))
+                if (String.IsNullOrEmpty(empresa))
+                {
+                    
+                }
+                else
                 {
                     DataTable empresa_id = Datos.empresa_recuperar(empresa);
                     if(empresa_id.Rows.Count>1)
@@ -70,6 +75,14 @@ namespace cotiza
                             //ListViewItem a = formulario.listView1.SelectedItems[0];
                         }
                     }
+                }
+            }
+            else
+            {
+                int indice = Array.IndexOf(Datos.empresa_tipo,cadena.Trim()); 
+                if(indice>=0)
+                {
+                    grupo_auxiliar = Datos.empresa_cuenta[indice];
                 }
             }
         }
