@@ -67,7 +67,9 @@ namespace cotiza
 
         public static DataTable empresa_recuperar(String nombre)
         {
-            return enlace1.lista(String.Format("select aux_id from auxiliar where aux_corto='{0}'",nombre));
+            int limite1 = Form1.grupo_auxiliar * 1000;
+            int limite2 = (Form1.grupo_auxiliar+1) * 1000;
+            return enlace1.lista(String.Format("select aux_id from auxiliar where aux_etiqueta>={0} and aux_etiqueta<{1} and aux_corto='{0}'",limite1,limite2,nombre));
         }
 
         public static int empresa_reemplazar(String codigo,String corto,String empresa)
@@ -75,14 +77,23 @@ namespace cotiza
             return enlace1.ejecutar(String.Format("update auxiliar set aux_corto='{0}',aux_nombre='{1}' where aux_etiqueta={2} and aux_estado=1", corto,empresa,codigo));
         }
 
-        public static MySqlDataReader empresa_lista(int grupo)
+        public static MySqlDataReader empresa_lista()
         {
-            return enlace1.consulta(String.Format("select * from auxiliar where aux_etiqueta={0} and aux_estado=1",cuenta));
+            int limite1 = Form1.grupo_auxiliar * 1000;
+            int limite2 = (Form1.grupo_auxiliar + 1) * 1000;
+            return enlace1.consulta(String.Format("select * from auxiliar where  aux_etiqueta>={0} and aux_etiqueta<{1} and aux_estado=1", limite1, limite2));
         }
 
-        public static MySqlDataReader empresa_buscar(String nombre)
+        public static int empresa_modificar(String codigo, String corto) 
         {
-            return enlace1.consulta(String.Format("select aux_id from auxiliar where left(aux_nombre,{0})='{1}'",Configura.maximo, nombre));
+            return enlace1.ejecutar(String.Format("update auxiliar set aux_corto='{0}' where aux_id={1}",corto,codigo));
+        }
+
+        public static DataTable empresa_buscar(String nombre)
+        {
+            int limite1 = Form1.grupo_auxiliar * 1000;
+            int limite2 = (Form1.grupo_auxiliar + 1) * 1000;
+            return enlace1.lista(String.Format("select aux_id from auxiliar where aux_etiqueta>={0} and aux_etiqueta<{1} and left(aux_nombre,{2})='{3}'",limite1,limite2,Configura.maximo,nombre));
         }
 
         public static String codigo_cadena(String ci)

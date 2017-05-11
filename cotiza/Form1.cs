@@ -49,20 +49,25 @@ namespace cotiza
             if(cotizacion>0)
             {
                 String empresa = partes[2].Trim();
-                if (String.IsNullOrEmpty(empresa))
-                {
-                    
-                }
-                else
+                if (!String.IsNullOrEmpty(empresa))
                 {
                     DataTable empresa_id = Datos.empresa_recuperar(empresa);
                     if(empresa_id.Rows.Count>1)
                     {
-
+                        // todo OK se encontro la empresa, guardar datos
                     }
                     else if (empresa_id.Rows.Count==0)
                     {
-
+                        // buscar en los nombre completos si alguno corresponde
+                        empresa_id.Dispose();
+                        empresa_id = Datos.empresa_buscar(empresa);
+                        if(empresa_id.Rows.Count==1)
+                        {
+                            // se encontro un sola empresa
+                            DataRow fila = empresa_id.Rows[0];
+                            Datos.empresa_modificar(fila["aux_id"].ToString(), empresa);
+                        }
+                        
                     }
 
                     if(empresa_id.Rows.Count==0)
